@@ -6,22 +6,24 @@
         <img src="../../assets/img/logo_index.png" alt="">
       </div>
       <!-- 登录表单 -->
-      <el-form style="margin-top:30px">
-        <el-form-item>
-          <el-input placeholder="请输入手机号"></el-input>
+      <el-form ref="myForm" style="margin-top:30px" :model="loginForm" :rules="loginRules">
+        <el-form-item prop="mobile">
+          <!-- v-model双向绑定数据对象 -->
+          <el-input v-model="loginForm.mobile" placeholder="请输入手机号"></el-input>
         </el-form-item>
 
-        <el-form-item>
-          <el-input placeholder="请输入6位数验证码" style="width:70%"></el-input>
+        <el-form-item prop="code">
+          <el-input v-model="loginForm.code" placeholder="请输入6位数验证码" style="width:70%"></el-input>
           <el-button plain style="float:right">获取验证码</el-button>
         </el-form-item>
 
-        <el-form-item>
-          <el-checkbox>我已经阅读并同意用户协议和隐私条款</el-checkbox>
+        <el-form-item prop="check">
+          <el-checkbox v-model="loginForm.check">我已经阅读并同意用户协议和隐私条款</el-checkbox>
         </el-form-item>
 
         <el-form-item>
-          <el-button style="width:100%" type="primary">登录</el-button>
+          <!-- 注册点击事件 -->
+          <el-button @click="submitLogin" style="width:100%" type="primary">登录</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -30,7 +32,45 @@
 
 <script>
 export default {
-
+// 第一步，在data中定义表单数据对象
+  data () {
+    return {
+      loginForm: {
+        mobile: '', // 手机号
+        code: '', // 验证码
+        check: false // 是否勾选
+      },
+      loginRules: {
+        // 验证规则，验证登陆表单
+        mobile: [{ required: true, message: '请输入您的手机号' }, {
+          pattern: /^1[3456789]\d{9}$/, message: '手机号格式不正确'
+        }],
+        code: [{ required: true, message: '请输入您的验证码' }, {
+          pattern: /^\d{6}$/, message: '验证码格式不正确'
+        }],
+        // 自定义函数
+        check: [{ validator: function (rule, value, callback) {
+          // rule当前的规则，没什么用
+          // value指的是要校验的字段的值
+          if (value) {
+            callback() // 认为通过，直接执行callback
+          } else {
+            callback(new Error('必须勾选才可以登录哦'))
+          }
+        } }]
+      }
+    }
+  },
+  methods: {
+    // 提交登录表单
+    submitLogin () {
+      this.$refs.myForm.validate(function (isOk) {
+        if (isOk) {
+          console.log('成功')
+        }
+      })
+    }
+  }
 }
 </script>
 
