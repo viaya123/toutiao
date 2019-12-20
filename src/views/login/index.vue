@@ -66,7 +66,19 @@ export default {
     submitLogin () {
       this.$refs.myForm.validate(function (isOk) {
         if (isOk) {
-          console.log('成功')
+          // 认为前端校验登录表单成功
+          // 地址参数 查询参数 params对象
+          // body参数 data对象
+          this.$axios({
+            url: '/authorizations', // 请求的地址
+            method: 'post',
+            data: this.loginForm
+          }).then(result => {
+            // 成功进入then
+            window.localStorage.setItem('user-token', result.data.data.token) // 前端缓存令牌
+          }).catch(error => {
+            console.log(error)
+          })
         }
       })
     }
