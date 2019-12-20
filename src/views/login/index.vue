@@ -64,7 +64,7 @@ export default {
   methods: {
     // 提交登录表单
     submitLogin () {
-      this.$refs.myForm.validate(function (isOk) {
+      this.$refs.myForm.validate((isOk) => {
         if (isOk) {
           // 认为前端校验登录表单成功
           // 地址参数 查询参数 params对象
@@ -76,8 +76,14 @@ export default {
           }).then(result => {
             // 成功进入then
             window.localStorage.setItem('user-token', result.data.data.token) // 前端缓存令牌
-          }).catch(error => {
-            console.log(error)
+            this.$router.push('/home') // 跳转到主页
+          }).catch(() => { // 输入错误
+            // console.log(error)
+            // Message 消息提示,elementUi的
+            this.$message({
+              message: '您输入的手机号或验证码错误',
+              type: 'warning'
+            })
           })
         }
       })
