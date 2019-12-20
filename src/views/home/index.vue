@@ -1,12 +1,17 @@
 <template>
+  <!-- 主页 -->
   <!-- 放置一个外侧容器 -->
   <el-container>
-    <el-aside>左侧</el-aside>
+    <!-- 左右布局 -->
+    <el-aside style="background-color:#353b4e;height:100vh;width:230px;overflow: hidden;">
+      <!-- 放置一个左侧组件 -->
+      <layout-aside></layout-aside>
+    </el-aside>
     <!-- 再放置一个container -->
     <el-container>
       <!-- 上下布局 -->
       <el-header>
-        头部
+        <layout-header></layout-header>
       </el-header>
       <!-- 主要区域 -->
       <el-main>
@@ -17,8 +22,15 @@
 </template>
 
 <script>
+// 引入左侧导航
+import layoutAside from '../../components/home/layout-aside'
+// 引入右侧头部组件
+import layoutHeader from '../../components/home/layout-header'
 export default {
-
+  components: {
+    'layout-aside': layoutAside,
+    'layout-header': layoutHeader
+  }
 }
 </script>
 
