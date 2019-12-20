@@ -8,12 +8,12 @@
       <el-row type="flex" justify="end" align="middle">
         <img :src="userInfo.photo ? userInfo.photo:defaultImg" alt />
         <!-- 下拉菜单 -->
-        <el-dropdown>
+        <el-dropdown @command="handle">
           <span>{{userInfo.name}}</span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>个人中心</el-dropdown-item>
-            <el-dropdown-item>git</el-dropdown-item>
-            <el-dropdown-item>退出</el-dropdown-item>
+            <el-dropdown-item command='info'>个人中心</el-dropdown-item>
+            <el-dropdown-item command='git'>git地址</el-dropdown-item>
+            <el-dropdown-item command='lgout'>退出</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-row>
@@ -41,6 +41,21 @@ export default {
     }).then(result => {
       this.userInfo = result.data.data // 获取个人信息
     })
+  },
+  methods: {
+    handle (command) {
+      // 区分点击的菜单项
+      if (command === 'lgout') {
+        // 退出
+        // 清除用户令牌
+        window.localStorage.removeItem('user-token')
+        this.$router.push('/login')
+      } else if (command === 'git') {
+        //   跳转
+      } else if (command === 'info') {
+
+      }
+    }
   }
 }
 </script>
