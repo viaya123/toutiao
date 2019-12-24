@@ -30,16 +30,17 @@ export default {
     }
   },
   created () {
-    let token = window.localStorage.getItem('user-token')
+    // let token = window.localStorage.getItem('user-token')
     // 查询数据
     this.$axios({
-      url: '/user/profile',
+      url: '/user/profile'
       // headers参数
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
+      // headers: {
+      //   Authorization: `Bearer ${token}`
+      // }
     }).then(result => {
-      this.userInfo = result.data.data // 获取个人信息
+      // this.userInfo = result.data.data // 获取个人信息
+      this.userInfo = result.data
     })
   },
   methods: {
