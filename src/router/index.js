@@ -19,6 +19,10 @@ const routes = [
     children: [{
       path: '',
       component: Home2
+    }, {
+      // 评论列表
+      path: '/home/comment',
+      component: () => import('../views/comment') // 按需加载
     }]
   }, {
     // 登录页
