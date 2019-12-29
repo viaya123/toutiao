@@ -1,5 +1,5 @@
 <template>
-  <el-card class="comment">
+  <el-card v-loading="loading" class="comment">
     <bread-crumb slot="header">
       <template slot="title">评论列表</template>
     </bread-crumb>
@@ -36,6 +36,7 @@
 export default {
   data () {
     return {
+      loading: false, // 加载状态，默认是关闭
       list: [],
       page: {
         // 专门放置分页数据
@@ -54,6 +55,7 @@ export default {
     },
     // 请求评论列表
     getComment () {
+      this.loading = true // 打开状态
       this.$axios({
         // query 查询参数，get参数
         url: '/articles',
@@ -61,6 +63,8 @@ export default {
       }).then(result => {
         this.list = result.data.results // 获取评论列表数据给本身的data
         this.page.total = result.data.total_count // 获取文章总数
+        // setTimeout(() => { this.loading = false }, 300)
+        this.loading = false
       })
     },
     // 定义一个布尔值转化
@@ -93,7 +97,7 @@ export default {
       })
     }
   },
-  // 钩子函数
+  // 钩子函数 加载之前
   created () {
     // 调用请求数据方法
     this.getComment()
