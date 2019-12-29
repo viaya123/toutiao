@@ -1,8 +1,13 @@
 <template>
-  <el-card class="material">
+  <el-card class="material" v-loading="loading">
     <bread-crumb slot="header">
-      <template slot="title">全部图文</template>
+      <template slot="title">图片管理</template>
     </bread-crumb>
+    <el-row type="flex" justify="end">
+        <el-upload :http-request="uploadImg" :show-file-list="false">
+            <el-button size="small" type="primary">上传图片</el-button>
+        </el-upload>
+    </el-row>
     <!-- body内容 -->
     <el-tabs v-model="activeName" @tab-click="changeTab">
       <el-tab-pane label="全部" name="all">
@@ -51,6 +56,7 @@
 export default {
   data () {
     return {
+      loading: false,
       activeName: 'all',
       list: [], // 接收全部数据
       //   collectList: []
@@ -63,6 +69,21 @@ export default {
     }
   },
   methods: {
+    // 上传图片
+    uploadImg (params) {
+      this.loading = true
+      let form = new FormData()
+      form.append('image', params.file) // 添加文件到formData
+      this.$axios({
+        method: 'post',
+        url: '/user/images',
+        data: form // formData数据
+      }).then(result => {
+        // 说明已经上传成功了一张图片
+        this.loading = false
+        this.getAllMaterial()
+      })
+    },
     //   切换分页
     changePage (newPage) {
       // newPage是当前页码
