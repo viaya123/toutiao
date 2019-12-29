@@ -23,6 +23,10 @@ const routes = [
       // 评论列表
       path: '/home/comment',
       component: () => import('../views/comment') // 按需加载
+    }, {
+      // 素材管理
+      path: '/home/material',
+      component: () => import('../views/material') // 按需加载
     }]
   }, {
     // 登录页
